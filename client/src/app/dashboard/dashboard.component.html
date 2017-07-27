@@ -1,0 +1,53 @@
+<p>Home</p>
+<p><a href="/logout">Logout</a></p>
+<div *ngIf="current_user">
+<h3>Welcome, {{current_user.name}} </h3>
+</div>
+<div *ngIf="user_list">
+  <form #bucketform="ngForm" (submit)="add_bucket_item()">
+    <input
+      type="text"
+      name="title"
+      placeholder="Title"
+      [(ngModel)]="new_bucket_item.title"
+      #title="ngModel"
+      required
+      minlength="5"
+      maxlength="100"
+      >
+    <input
+      type="text"
+      name="description"
+      placeholder="Description"
+      [(ngModel)]="new_bucket_item.description"
+      #description="ngModel"
+      required
+      minlength="10"
+      maxlength="100"
+      >
+    <select
+      name="another_user"
+      [(ngModel)]="new_user_to_update.name"
+      #anotheruser="ngModel"
+      required>
+      <!-- <option value="State"></option> -->
+      <option *ngFor="let user of user_list" [value]="user.name">{{user.name}}</option>
+    </select>
+
+      <input type=submit [disabled]="!current_user || bucketform.errors" name=submit value="Add To List">
+  </form>
+    <!-- <button [routerLink]="['']">Cancel</button> -->
+</div>
+<p>Before I die I want to:</p>
+<div *ngIf="bucket_list">
+<div *ngFor="let item of bucket_list | filterbyarray: current_user.bucket_ids">
+  <p>{{ item.createdBy}} | {{ item.title }} - {{ item.description }} - {{ item.createdAt | date:'longDate'}}</p>
+</div>
+</div>
+<br>
+<p>List of other users (Click to view profile)</p>
+<div *ngIf="user_list">
+<div *ngFor="let user of user_list">
+  <p><a [routerLink]="['/#user/',user._id]">{{ user.name }}</a></p>
+</div>
+</div>

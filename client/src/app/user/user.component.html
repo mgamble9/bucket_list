@@ -1,0 +1,10 @@
+<p><a href="/dashboard">Home</a></p>
+<p><a href="/logout">Logout</a></p>
+
+
+<div *ngIf="bucket_list">
+  <!-- <div *ngFor="let item of bucket_list"> -->
+  <div *ngFor="let item of bucket_list | filterbyarray: user_to_list.bucket_ids">
+  <p>{{ item.createdBy}} | {{ item.title }} - {{ item.description }} - {{ item.createdAt | date:'longDate'}}</p>
+</div>
+</div>
